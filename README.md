@@ -5,7 +5,7 @@ used.
 
 The vanilla hunger system including exhaustion and saturation is disabled by default.
 
-Additionally, an entity attribute called **_generic.reserved_health_** is added.
+Additionally, an entity attribute called **_generic.reserved_health_** is added and a vanilla bug that clamps player health to a maximum of 20 when respawning/joining a world has been fixed.
 
 ## Default implementation
 
@@ -28,7 +28,9 @@ When the vanilla game rule "naturalRegeneration" is true, players have 1 additio
 
 In the client config an alternative health bar can be enabled and customized.
 
-In the server config, the vanilla food system can be re-enabled.
+The server config has options to set the default value for each attribute (including max_health). This only affects the attribute values for players, not other entities.
+
+Also in the server config, the vanilla food system can be re-enabled.
 
 ## API
 
