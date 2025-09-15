@@ -1,3 +1,8 @@
+# 2.6.0
+
+- added server config options to define the default for each health related attribute (only affects players) and adjusted the default values of those attributes for players
+- fixed vanilla that clamps health to a maximum of 20 when respawning/joining a world
+
 # 2.5.0
 
 - added alternative health bar consisting of icons, similar to vanillas health bar (this first iteration does not yet support multiple icon types per bar, e.g. absorption hearts)
