@@ -18,9 +18,9 @@ public class ServerConfig extends Config {
 
 	public static class NaturalPlayerAttributeValuesSection extends ConfigSection {
 		public float natural_health_regeneration = 0.0F;
-		public float natural_max_health = 9.0F;
-		public float natural_health_regeneration_delay_threshold = 20.0F;
-		public float natural_health_tick_threshold = 20.0F;
+		public float natural_max_health = 19.0F;
+		public float natural_health_regeneration_delay_threshold = 100.0F;
+		public float natural_health_tick_threshold = 100.0F;
 		public float natural_reserved_health = 0.0F;
 	}
 }
