@@ -8,6 +8,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,6 +43,12 @@ public abstract class LivingEntityMixin extends Entity implements HealthRegenera
 
 	@Unique
 	private int healthRegenerationDelayTimer = 0;
+	@Unique
+	private Float oldHealth = null;
+	@Unique
+	private boolean applyOldHealth = true;
+	@Unique
+	private boolean applyMaxHealth = false;
 
 	public LivingEntityMixin(EntityType<?> type, World world) {
 		super(type, world);
@@ -54,6 +62,19 @@ public abstract class LivingEntityMixin extends Entity implements HealthRegenera
 				.add(HealthRegenerationOverhaul.HEALTH_REGENERATION_DELAY_THRESHOLD)
 				.add(HealthRegenerationOverhaul.RESERVED_HEALTH)
 		;
+	}
+
+	@Inject(method = "readCustomDataFromNbt", at = @At("HEAD"))
+	public void healthregenerationoverhaul$readCustomDataFromNbt_head(NbtCompound nbt, CallbackInfo ci) {
+		float health;
+		if (nbt.contains("Health", NbtElement.NUMBER_TYPE)) {
+			health = nbt.getFloat("Health");
+		} else {
+			health = Float.MIN_VALUE;
+		}
+		if (health != Float.MIN_VALUE) {
+			this.oldHealth = health;
+		}
 	}
 
 	@Inject(method = "heal", at = @At("RETURN"))
@@ -88,6 +109,18 @@ public abstract class LivingEntityMixin extends Entity implements HealthRegenera
 					this.setHealth(this.healthregenerationoverhaul$getUnreservedHealth());
 				}
 				this.healthTickTimer = 0;
+			}
+			if (this.applyOldHealth) {
+				if (this.applyMaxHealth) {
+					this.oldHealth = this.healthregenerationoverhaul$getUnreservedHealth();
+					this.applyMaxHealth = false;
+				}
+				if (this.oldHealth != null) {
+					this.setHealth(this.oldHealth);
+					this.oldHealth = null;
+				}
+			} else {
+				this.applyOldHealth = true;
 			}
 		}
 	}
@@ -126,5 +159,15 @@ public abstract class LivingEntityMixin extends Entity implements HealthRegenera
 	public void healthregenerationoverhaul$resetTickCounters() {
 		this.healthRegenerationDelayTimer = 0;
 		this.healthTickTimer = 0;
+	}
+
+	@Override
+	public void healthregenerationoverhaul$setApplyOldHealth(boolean applyOldHealth) {
+		this.applyOldHealth = applyOldHealth;
+	}
+
+	@Override
+	public void healthregenerationoverhaul$setApplyMaxHealth(boolean applyMaxHealth) {
+		this.applyMaxHealth = applyMaxHealth;
 	}
 }

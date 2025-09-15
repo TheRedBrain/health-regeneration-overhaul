@@ -14,4 +14,8 @@ public interface HealthRegeneratingEntity {
 	float healthregenerationoverhaul$getReservedHealth();
 
 	void healthregenerationoverhaul$resetTickCounters();
+
+	void healthregenerationoverhaul$setApplyOldHealth(boolean applyOldHealth);
+
+	void healthregenerationoverhaul$setApplyMaxHealth(boolean applyMaxHealth);
 }
