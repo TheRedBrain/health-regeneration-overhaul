@@ -1,3 +1,8 @@
+# 2.6.1
+
+- fixed health being set to 1 when joining a world for the first time
+- bumped various dependency versions
+
 # 2.6.0
 
 - added server config options to define the default for each health related attribute (only affects players) and adjusted the default values of those attributes for players
