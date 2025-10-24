@@ -1,3 +1,7 @@
+# 3.0.0
+
+- updated to 1.21.10
+
 # 2.6.1
 
 - fixed health being set to 1 when joining a world for the first time

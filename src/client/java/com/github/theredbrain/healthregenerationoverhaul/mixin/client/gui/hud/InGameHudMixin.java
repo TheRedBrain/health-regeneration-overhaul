@@ -2,6 +2,7 @@ package com.github.theredbrain.healthregenerationoverhaul.mixin.client.gui.hud;
 
 import com.github.theredbrain.healthregenerationoverhaul.HealthRegenerationOverhaul;
 import com.github.theredbrain.healthregenerationoverhaul.HealthRegenerationOverhaulClient;
+import com.github.theredbrain.healthregenerationoverhaul.gui.hud.DuckInGameHudMixin;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -17,10 +18,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
 @Mixin(InGameHud.class)
-public abstract class InGameHudMixin {
+public abstract class InGameHudMixin implements DuckInGameHudMixin {
 
 	@Shadow
 	protected abstract int getHeartCount(LivingEntity entity);
+
+	@Shadow private long heartJumpEndTick;
+
+	@Shadow private int ticks;
+
+	public long healthregenerationoverhaul$getHeartJumpEndTick() {
+		return this.heartJumpEndTick;
+	}
+
+	public int healthregenerationoverhaul$getTicks() {
+		return this.ticks;
+	}
 
 	@Inject(method = "renderHealthBar", at = @At("HEAD"), cancellable = true)
 	private void healthregenerationoverhaul$renderHealthBar(DrawContext context, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking, CallbackInfo ci) {

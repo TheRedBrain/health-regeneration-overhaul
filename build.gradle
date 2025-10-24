@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.11-SNAPSHOT'
+	id 'fabric-loom' version "${loom_version}"
 	id "com.matthewprenger.cursegradle" version "1.4.0"
 	id "com.github.breadmoirai.github-release" version "2.4.1"
 	id "com.modrinth.minotaur" version "2.+"
@@ -55,8 +55,8 @@ dependencies {
 	modImplementation"me.fzzyhmstrs:fzzy_config:${project.fzzy_config_version}"
 
 	// Resource Bar API
-    modImplementation "maven.modrinth:resource-bar-api:${project.resource_bar_api_version}"
-//	modImplementation(files("libs/resource-bar-api-${project.resource_bar_api_version}.jar"))
+//    modImplementation "maven.modrinth:resource-bar-api:${project.resource_bar_api_version}"
+	modImplementation(files("libs/resource-bar-api-${project.resource_bar_api_version}.jar"))
 
 }
 
