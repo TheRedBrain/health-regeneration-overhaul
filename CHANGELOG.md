@@ -1,6 +1,7 @@
 # 3.0.0
 
 - updated to 1.21.10
+- icon bar now blinks when health amount changes (like in vanilla)
 
 # 2.6.1
 
