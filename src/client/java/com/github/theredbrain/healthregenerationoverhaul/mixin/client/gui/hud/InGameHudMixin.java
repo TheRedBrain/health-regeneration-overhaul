@@ -3,6 +3,8 @@ package com.github.theredbrain.healthregenerationoverhaul.mixin.client.gui.hud;
 import com.github.theredbrain.healthregenerationoverhaul.HealthRegenerationOverhaul;
 import com.github.theredbrain.healthregenerationoverhaul.HealthRegenerationOverhaulClient;
 import com.github.theredbrain.healthregenerationoverhaul.gui.hud.DuckInGameHudMixin;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -13,7 +15,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
@@ -21,11 +22,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class InGameHudMixin implements DuckInGameHudMixin {
 
 	@Shadow
-	protected abstract int getHeartCount(LivingEntity entity);
+	private long heartJumpEndTick;
 
-	@Shadow private long heartJumpEndTick;
-
-	@Shadow private int ticks;
+	@Shadow
+	private int ticks;
 
 	public long healthregenerationoverhaul$getHeartJumpEndTick() {
 		return this.heartJumpEndTick;
@@ -43,15 +43,14 @@ public abstract class InGameHudMixin implements DuckInGameHudMixin {
 		}
 	}
 
-	// effectively disables rendering of the food bar
-	@Redirect(
+	@WrapOperation(
 			method = "renderStatusBars",
 			at = @At(
 					value = "INVOKE",
 					target = "Lnet/minecraft/client/gui/hud/InGameHud;getHeartCount(Lnet/minecraft/entity/LivingEntity;)I"
 			)
 	)
-	public int healthregenerationoverhaul$redirect_getHeartCount(InGameHud instance, LivingEntity entity) {
-		return HealthRegenerationOverhaul.SERVER_CONFIG.disable_vanilla_food_system ? 1 : this.getHeartCount(entity);
+	public int healthregenerationoverhaul$wrap_getHeartCount(InGameHud instance, LivingEntity entity, Operation<Integer> original) {
+		return HealthRegenerationOverhaul.SERVER_CONFIG.disable_vanilla_food_system ? 1 : original.call(instance, entity);
 	}
 }
