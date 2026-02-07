@@ -13,8 +13,8 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.rule.GameRules;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -53,7 +53,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements HealthRe
 	@Unique
 	private HashMultimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> getNaturalAttributeModifiers() {
 		HashMultimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> hashMultimap = HashMultimap.create();
-		hashMultimap.put(HealthRegenerationOverhaul.HEALTH_REGENERATION, new EntityAttributeModifier(HealthRegenerationOverhaul.identifier("natural_health_regeneration_modifier"), HealthRegenerationOverhaul.SERVER_CONFIG.naturalPlayerAttributeValues.natural_health_regeneration + (((ServerWorld) this.getEntityWorld()).getGameRules().getBoolean(GameRules.NATURAL_REGENERATION) ? 1.0 : 0.0), EntityAttributeModifier.Operation.ADD_VALUE));
+		hashMultimap.put(HealthRegenerationOverhaul.HEALTH_REGENERATION, new EntityAttributeModifier(HealthRegenerationOverhaul.identifier("natural_health_regeneration_modifier"), HealthRegenerationOverhaul.SERVER_CONFIG.naturalPlayerAttributeValues.natural_health_regeneration + (((ServerWorld) this.getEntityWorld()).getGameRules().getValue(GameRules.NATURAL_HEALTH_REGENERATION) ? 1.0 : 0.0), EntityAttributeModifier.Operation.ADD_VALUE));
 		hashMultimap.put(EntityAttributes.MAX_HEALTH, new EntityAttributeModifier(HealthRegenerationOverhaul.identifier("natural_max_health_modifier"), HealthRegenerationOverhaul.SERVER_CONFIG.naturalPlayerAttributeValues.natural_max_health, EntityAttributeModifier.Operation.ADD_VALUE));
 		hashMultimap.put(HealthRegenerationOverhaul.HEALTH_TICK_THRESHOLD, new EntityAttributeModifier(HealthRegenerationOverhaul.identifier("natural_health_tick_threshold_modifier"), HealthRegenerationOverhaul.SERVER_CONFIG.naturalPlayerAttributeValues.natural_health_regeneration_delay_threshold, EntityAttributeModifier.Operation.ADD_VALUE));
 		hashMultimap.put(HealthRegenerationOverhaul.HEALTH_REGENERATION_DELAY_THRESHOLD, new EntityAttributeModifier(HealthRegenerationOverhaul.identifier("natural_health_regeneration_delay_threshold_modifier"), HealthRegenerationOverhaul.SERVER_CONFIG.naturalPlayerAttributeValues.natural_health_tick_threshold, EntityAttributeModifier.Operation.ADD_VALUE));

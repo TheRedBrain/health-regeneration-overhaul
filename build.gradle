@@ -34,7 +34,7 @@ loom {
     splitEnvironmentSourceSets()
 
 	mods {
-		"healthandhungeroverhaul" {
+		"healthregenerationoverhaul" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
