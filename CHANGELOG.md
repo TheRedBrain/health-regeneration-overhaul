@@ -4,11 +4,15 @@
 
 ## Additions
 
+- the custom health bar now shows absorption hearts
+
 ## Changes
 
 ## Fixes
 
 ## Technical
+
+- migrated to Mojang Mappings
 
 # 3.0.0
 

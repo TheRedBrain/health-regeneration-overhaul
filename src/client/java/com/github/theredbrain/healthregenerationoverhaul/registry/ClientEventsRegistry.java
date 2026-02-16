@@ -18,9 +18,18 @@ import net.minecraft.world.effect.MobEffects;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ClientEventsRegistry {
 	private static final String RESOURCE_BAR_IDENTIFIER_STRING = HealthRegenerationOverhaul.MOD_ID + ":health";
+	private static final Identifier ICON_ABSORBING_FULL = Identifier.withDefaultNamespace("hud/heart/absorbing_full");
+	private static final Identifier ICON_ABSORBING_FULL_BLINKING = Identifier.withDefaultNamespace("hud/heart/absorbing_full_blinking");
+	private static final Identifier ICON_ABSORBING_HALF = Identifier.withDefaultNamespace("hud/heart/absorbing_half");
+	private static final Identifier ICON_ABSORBING_HALF_BLINKING = Identifier.withDefaultNamespace("hud/heart/absorbing_half_blinking");
+	private static final Identifier ICON_ABSORBING_HARDCORE_FULL = Identifier.withDefaultNamespace("hud/heart/absorbing_hardcore_full");
+	private static final Identifier ICON_ABSORBING_HARDCORE_FULL_BLINKING = Identifier.withDefaultNamespace("hud/heart/absorbing_hardcore_full_blinking");
+	private static final Identifier ICON_ABSORBING_HARDCORE_HALF = Identifier.withDefaultNamespace("hud/heart/absorbing_hardcore_half");
+	private static final Identifier ICON_ABSORBING_HARDCORE_HALF_BLINKING = Identifier.withDefaultNamespace("hud/heart/absorbing_hardcore_half_blinking");
 	private static final Identifier ICON_HEALTH_CONTAINER = Identifier.withDefaultNamespace("hud/heart/container");
 	private static final Identifier ICON_HEALTH_CONTAINER_BLINKING = Identifier.withDefaultNamespace("hud/heart/container_blinking");
 	private static final Identifier ICON_HEALTH_CONTAINER_HARDCORE = Identifier.withDefaultNamespace("hud/heart/container_hardcore");
@@ -59,7 +68,7 @@ public class ClientEventsRegistry {
 	private static final Identifier ICON_HEALTH_HALF_FROZEN_HARDCORE_BLINKING = Identifier.withDefaultNamespace("hud/heart/frozen_hardcore_half_blinking");
 
 	public static void initializeClientEvents() {
-		HudElementRegistry.attachElementAfter(VanillaHudElements.HEALTH_BAR, HealthRegenerationOverhaul.identifier("health"), ((matrixStack, delta) -> {
+		HudElementRegistry.attachElementAfter(VanillaHudElements.HEALTH_BAR, HealthRegenerationOverhaul.identifier("health"), ((guiGraphics, delta) -> {
 			Minecraft minecraft = Minecraft.getInstance();
 			LocalPlayer localPlayer = minecraft.player;
 			ClientConfig clientConfig = HealthRegenerationOverhaulClient.CLIENT_CONFIG;
@@ -68,110 +77,131 @@ public class ClientEventsRegistry {
 				double health = localPlayer.getHealth();
 				double maxHealth = localPlayer.getMaxHealth();
 				double unreservedHealth = Mth.ceil(((HealthRegeneratingEntity) localPlayer).healthregenerationoverhaul$getUnreservedHealth());
+				double absorption = localPlayer.getAbsorptionAmount();
+				double maxAbsorption = localPlayer.getMaxAbsorption();
 
 				if (!localPlayer.isCreative() && maxHealth > 0) {
 
-					MutablePair<Integer, Integer> originPos = ResourceBarAPIClient.getOriginPos(matrixStack, clientConfig.origin);
+					MutablePair<Integer, Integer> originPos = ResourceBarAPIClient.getOriginPos(guiGraphics, clientConfig.origin);
 
 					if (clientConfig.health_bar_display == ResourceBarAPI.ResourceBarDisplay.ICON && (health < maxHealth || clientConfig.show_full_health_bar)) {
 
-						Identifier containerId;
-						Identifier fullId;
-						Identifier halfId;
+						Identifier regularContainerId;
+						Identifier regularFullId;
+						Identifier regularHalfId;
+						Identifier absorbingFullId;
+						Identifier absorbingHalfId;
 
 						boolean blinking = ((DuckInGameHudMixin) minecraft.gui).healthregenerationoverhaul$getHeartJumpEndTick() > ((DuckInGameHudMixin) minecraft.gui).healthregenerationoverhaul$getTicks() && (((DuckInGameHudMixin) minecraft.gui).healthregenerationoverhaul$getHeartJumpEndTick() - ((DuckInGameHudMixin) minecraft.gui).healthregenerationoverhaul$getTicks()) / 3L % 2L == 1L;
 
 						if (localPlayer.level().getLevelData().isHardcore()) {
 							if (blinking) {
-								containerId = ICON_HEALTH_CONTAINER_HARDCORE_BLINKING;
+								regularContainerId = ICON_HEALTH_CONTAINER_HARDCORE_BLINKING;
+								absorbingFullId = ICON_ABSORBING_HARDCORE_FULL_BLINKING;
+								absorbingHalfId = ICON_ABSORBING_HARDCORE_HALF_BLINKING;
 							} else {
-								containerId = ICON_HEALTH_CONTAINER_HARDCORE;
+								regularContainerId = ICON_HEALTH_CONTAINER_HARDCORE;
+								absorbingFullId = ICON_ABSORBING_HARDCORE_FULL;
+								absorbingHalfId = ICON_ABSORBING_HARDCORE_HALF;
 							}
 							if (localPlayer.hasEffect(MobEffects.POISON)) {
 								if (blinking) {
-									fullId = ICON_HEALTH_FULL_POISONED_HARDCORE_BLINKING;
-									halfId = ICON_HEALTH_HALF_POISONED_HARDCORE_BLINKING;
+									regularFullId = ICON_HEALTH_FULL_POISONED_HARDCORE_BLINKING;
+									regularHalfId = ICON_HEALTH_HALF_POISONED_HARDCORE_BLINKING;
 								} else {
-									fullId = ICON_HEALTH_FULL_POISONED_HARDCORE;
-									halfId = ICON_HEALTH_HALF_POISONED_HARDCORE;
+									regularFullId = ICON_HEALTH_FULL_POISONED_HARDCORE;
+									regularHalfId = ICON_HEALTH_HALF_POISONED_HARDCORE;
 								}
 							} else if (localPlayer.hasEffect(MobEffects.WITHER)) {
 								if (blinking) {
-									fullId = ICON_HEALTH_FULL_WITHERED_HARDCORE_BLINKING;
-									halfId = ICON_HEALTH_HALF_WITHERED_HARDCORE_BLINKING;
+									regularFullId = ICON_HEALTH_FULL_WITHERED_HARDCORE_BLINKING;
+									regularHalfId = ICON_HEALTH_HALF_WITHERED_HARDCORE_BLINKING;
 								} else {
-									fullId = ICON_HEALTH_FULL_WITHERED_HARDCORE;
-									halfId = ICON_HEALTH_HALF_WITHERED_HARDCORE;
+									regularFullId = ICON_HEALTH_FULL_WITHERED_HARDCORE;
+									regularHalfId = ICON_HEALTH_HALF_WITHERED_HARDCORE;
 								}
 							} else if (localPlayer.isFullyFrozen()) {
 								if (blinking) {
-									fullId = ICON_HEALTH_FULL_FROZEN_HARDCORE_BLINKING;
-									halfId = ICON_HEALTH_HALF_FROZEN_HARDCORE_BLINKING;
+									regularFullId = ICON_HEALTH_FULL_FROZEN_HARDCORE_BLINKING;
+									regularHalfId = ICON_HEALTH_HALF_FROZEN_HARDCORE_BLINKING;
 								} else {
-									fullId = ICON_HEALTH_FULL_FROZEN_HARDCORE;
-									halfId = ICON_HEALTH_HALF_FROZEN_HARDCORE;
+									regularFullId = ICON_HEALTH_FULL_FROZEN_HARDCORE;
+									regularHalfId = ICON_HEALTH_HALF_FROZEN_HARDCORE;
 								}
 							} else {
 								if (blinking) {
-									fullId = ICON_HEALTH_FULL_HARDCORE_BLINKING;
-									halfId = ICON_HEALTH_HALF_HARDCORE_BLINKING;
+									regularFullId = ICON_HEALTH_FULL_HARDCORE_BLINKING;
+									regularHalfId = ICON_HEALTH_HALF_HARDCORE_BLINKING;
 								} else {
-									fullId = ICON_HEALTH_FULL_HARDCORE;
-									halfId = ICON_HEALTH_HALF_HARDCORE;
+									regularFullId = ICON_HEALTH_FULL_HARDCORE;
+									regularHalfId = ICON_HEALTH_HALF_HARDCORE;
 								}
 							}
 						} else {
 							if (blinking) {
-								containerId = ICON_HEALTH_CONTAINER_BLINKING;
+								regularContainerId = ICON_HEALTH_CONTAINER_BLINKING;
+								absorbingFullId = ICON_ABSORBING_FULL_BLINKING;
+								absorbingHalfId = ICON_ABSORBING_HALF_BLINKING;
 							} else {
-								containerId = ICON_HEALTH_CONTAINER;
+								regularContainerId = ICON_HEALTH_CONTAINER;
+								absorbingFullId = ICON_ABSORBING_FULL;
+								absorbingHalfId = ICON_ABSORBING_HALF;
 							}
 							if (localPlayer.hasEffect(MobEffects.POISON)) {
 								if (blinking) {
-									fullId = ICON_HEALTH_FULL_POISONED_BLINKING;
-									halfId = ICON_HEALTH_HALF_POISONED_BLINKING;
+									regularFullId = ICON_HEALTH_FULL_POISONED_BLINKING;
+									regularHalfId = ICON_HEALTH_HALF_POISONED_BLINKING;
 								} else {
-									fullId = ICON_HEALTH_FULL_POISONED;
-									halfId = ICON_HEALTH_HALF_POISONED;
+									regularFullId = ICON_HEALTH_FULL_POISONED;
+									regularHalfId = ICON_HEALTH_HALF_POISONED;
 								}
 							} else if (localPlayer.hasEffect(MobEffects.WITHER)) {
 								if (blinking) {
-									fullId = ICON_HEALTH_FULL_WITHERED_BLINKING;
-									halfId = ICON_HEALTH_HALF_WITHERED_BLINKING;
+									regularFullId = ICON_HEALTH_FULL_WITHERED_BLINKING;
+									regularHalfId = ICON_HEALTH_HALF_WITHERED_BLINKING;
 								} else {
-									fullId = ICON_HEALTH_FULL_WITHERED;
-									halfId = ICON_HEALTH_HALF_WITHERED;
+									regularFullId = ICON_HEALTH_FULL_WITHERED;
+									regularHalfId = ICON_HEALTH_HALF_WITHERED;
 								}
 							} else if (localPlayer.isFullyFrozen()) {
 								if (blinking) {
-									fullId = ICON_HEALTH_FULL_FROZEN_BLINKING;
-									halfId = ICON_HEALTH_HALF_FROZEN_BLINKING;
+									regularFullId = ICON_HEALTH_FULL_FROZEN_BLINKING;
+									regularHalfId = ICON_HEALTH_HALF_FROZEN_BLINKING;
 								} else {
-									fullId = ICON_HEALTH_FULL_FROZEN;
-									halfId = ICON_HEALTH_HALF_FROZEN;
+									regularFullId = ICON_HEALTH_FULL_FROZEN;
+									regularHalfId = ICON_HEALTH_HALF_FROZEN;
 								}
 							} else {
 								if (blinking) {
-									fullId = ICON_HEALTH_FULL_BLINKING;
-									halfId = ICON_HEALTH_HALF_BLINKING;
+									regularFullId = ICON_HEALTH_FULL_BLINKING;
+									regularHalfId = ICON_HEALTH_HALF_BLINKING;
 								} else {
-									fullId = ICON_HEALTH_FULL;
-									halfId = ICON_HEALTH_HALF;
+									regularFullId = ICON_HEALTH_FULL;
+									regularHalfId = ICON_HEALTH_HALF;
 								}
 							}
 						}
 
-						ResourceBarAPIClient.drawIconResourceBar(
-								minecraft,
-								matrixStack,
-								RESOURCE_BAR_IDENTIFIER_STRING,
+						List<ResourceBarAPI.ResourceBarIconType> list = new ArrayList<>();
+						list.add(new ResourceBarAPI.ResourceBarIconType(
 								health,
-								maxHealth,
-								containerId,
-								fullId,
-								halfId,
-								new ArrayList<>(),
-								new ArrayList<>(),// TODO reserved health, absorption
+								unreservedHealth,
+								regularContainerId,
+								regularFullId,
+								regularHalfId,
+								ResourceBarAPI.ContinuationType.NEW_ICON
+						));
+						list.add(new ResourceBarAPI.ResourceBarIconType(
+								absorption,
+								maxAbsorption,
+								regularContainerId,
+								absorbingFullId,
+								absorbingHalfId,
+								ResourceBarAPI.ContinuationType.NEW_LINE
+						));
+						ResourceBarAPIClient.drawIconResourceBar(
+								guiGraphics,
+								list,
 								originPos.getLeft(),
 								originPos.getRight(),
 								clientConfig.iconBarSettings.offset_x.get(),
@@ -183,7 +213,7 @@ public class ClientEventsRegistry {
 					} else if (clientConfig.health_bar_display == ResourceBarAPI.ResourceBarDisplay.SMOOTH && (health < maxHealth || clientConfig.show_full_health_bar)) {
 						ResourceBarAPIClient.drawSmoothResourceBar(
 								minecraft,
-								matrixStack,
+								guiGraphics,
 								RESOURCE_BAR_IDENTIFIER_STRING,
 								new double[]{
 										-1,
@@ -260,7 +290,7 @@ public class ClientEventsRegistry {
 						ResourceBarAPIClient.drawResourceNumber(
 								minecraft,
 								minecraft.font,
-								matrixStack,
+								guiGraphics,
 								RESOURCE_BAR_IDENTIFIER_STRING,
 								health,
 								maxHealth,
