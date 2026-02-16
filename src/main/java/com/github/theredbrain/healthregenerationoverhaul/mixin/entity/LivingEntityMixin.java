@@ -2,16 +2,16 @@ package com.github.theredbrain.healthregenerationoverhaul.mixin.entity;
 
 import com.github.theredbrain.healthregenerationoverhaul.HealthRegenerationOverhaul;
 import com.github.theredbrain.healthregenerationoverhaul.entity.HealthRegeneratingEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.storage.ReadView;
-import net.minecraft.world.World;
+import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -36,7 +36,7 @@ public abstract class LivingEntityMixin extends Entity implements HealthRegenera
 	public abstract void heal(float amount);
 
 	@Shadow
-	public abstract double getAttributeValue(RegistryEntry<EntityAttribute> attribute);
+	public abstract double getAttributeValue(Holder<Attribute> attribute);
 
 	@Unique
 	private int healthTickTimer = 0;
@@ -50,12 +50,12 @@ public abstract class LivingEntityMixin extends Entity implements HealthRegenera
 	@Unique
 	private boolean applyMaxHealth = false;
 
-	public LivingEntityMixin(EntityType<?> type, World world) {
+	public LivingEntityMixin(EntityType<?> type, Level world) {
 		super(type, world);
 	}
 
 	@Inject(method = "createLivingAttributes", at = @At("RETURN"))
-	private static void healthregenerationoverhaul$createLivingAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
+	private static void healthregenerationoverhaul$createLivingAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
 		cir.getReturnValue()
 				.add(HealthRegenerationOverhaul.HEALTH_REGENERATION)
 				.add(HealthRegenerationOverhaul.HEALTH_TICK_THRESHOLD)
@@ -64,11 +64,11 @@ public abstract class LivingEntityMixin extends Entity implements HealthRegenera
 		;
 	}
 
-	@Inject(method = "readCustomData", at = @At("HEAD"))
-	public void healthregenerationoverhaul$readCustomData_head(ReadView view, CallbackInfo ci) {
+	@Inject(method = "readAdditionalSaveData", at = @At("HEAD"))
+	public void healthregenerationoverhaul$readCustomData_head(ValueInput view, CallbackInfo ci) {
 		float health;
 		if (view.contains("Health")) {
-			health = view.getFloat("Health", this.getMaxHealth());
+			health = view.getFloatOr("Health", this.getMaxHealth());
 		} else {
 			health = Float.MIN_VALUE;
 		}
@@ -84,14 +84,14 @@ public abstract class LivingEntityMixin extends Entity implements HealthRegenera
 		}
 	}
 
-	@Inject(method = "applyDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setHealth(F)V", shift = At.Shift.AFTER))
-	protected void healthregenerationoverhaul$applyDamage(ServerWorld world, DamageSource source, float amount, CallbackInfo ci) {
+	@Inject(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V", shift = At.Shift.AFTER))
+	protected void healthregenerationoverhaul$applyDamage(ServerLevel world, DamageSource source, float amount, CallbackInfo ci) {
 		this.healthregenerationoverhaul$resetTickCounters();
 	}
 
 	@Inject(method = "tick", at = @At("TAIL"))
 	public void healthregenerationoverhaul$tick(CallbackInfo ci) {
-		if (!this.getEntityWorld().isClient()) {
+		if (!this.level().isClientSide()) {
 
 			this.healthTickTimer++;
 

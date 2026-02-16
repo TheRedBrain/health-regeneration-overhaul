@@ -10,66 +10,66 @@ import com.github.theredbrain.resourcebarapi.ResourceBarAPIClient;
 import me.fzzyhmstrs.fzzy_config.api.ConfigApi;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffects;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.ArrayList;
 
 public class ClientEventsRegistry {
 	private static final String RESOURCE_BAR_IDENTIFIER_STRING = HealthRegenerationOverhaul.MOD_ID + ":health";
-	private static final Identifier ICON_HEALTH_CONTAINER = Identifier.ofVanilla("hud/heart/container");
-	private static final Identifier ICON_HEALTH_CONTAINER_BLINKING = Identifier.ofVanilla("hud/heart/container_blinking");
-	private static final Identifier ICON_HEALTH_CONTAINER_HARDCORE = Identifier.ofVanilla("hud/heart/container_hardcore");
-	private static final Identifier ICON_HEALTH_CONTAINER_HARDCORE_BLINKING = Identifier.ofVanilla("hud/heart/container_hardcore_blinking");
-	private static final Identifier ICON_HEALTH_FULL = Identifier.ofVanilla("hud/heart/full");
-	private static final Identifier ICON_HEALTH_FULL_BLINKING = Identifier.ofVanilla("hud/heart/full_blinking");
-	private static final Identifier ICON_HEALTH_HALF = Identifier.ofVanilla("hud/heart/half");
-	private static final Identifier ICON_HEALTH_HALF_BLINKING = Identifier.ofVanilla("hud/heart/half_blinking");
-	private static final Identifier ICON_HEALTH_FULL_POISONED = Identifier.ofVanilla("hud/heart/poisoned_full");
-	private static final Identifier ICON_HEALTH_FULL_POISONED_BLINKING = Identifier.ofVanilla("hud/heart/poisoned_full_blinking");
-	private static final Identifier ICON_HEALTH_HALF_POISONED = Identifier.ofVanilla("hud/heart/poisoned_half");
-	private static final Identifier ICON_HEALTH_HALF_POISONED_BLINKING = Identifier.ofVanilla("hud/heart/poisoned_half_blinking");
-	private static final Identifier ICON_HEALTH_FULL_WITHERED = Identifier.ofVanilla("hud/heart/withered_full");
-	private static final Identifier ICON_HEALTH_FULL_WITHERED_BLINKING = Identifier.ofVanilla("hud/heart/withered_full_blinking");
-	private static final Identifier ICON_HEALTH_HALF_WITHERED = Identifier.ofVanilla("hud/heart/withered_half");
-	private static final Identifier ICON_HEALTH_HALF_WITHERED_BLINKING = Identifier.ofVanilla("hud/heart/withered_half_blinking");
-	private static final Identifier ICON_HEALTH_FULL_FROZEN = Identifier.ofVanilla("hud/heart/frozen_full");
-	private static final Identifier ICON_HEALTH_FULL_FROZEN_BLINKING = Identifier.ofVanilla("hud/heart/frozen_full_blinking");
-	private static final Identifier ICON_HEALTH_HALF_FROZEN = Identifier.ofVanilla("hud/heart/frozen_half");
-	private static final Identifier ICON_HEALTH_HALF_FROZEN_BLINKING = Identifier.ofVanilla("hud/heart/frozen_half_blinking");
-	private static final Identifier ICON_HEALTH_FULL_HARDCORE = Identifier.ofVanilla("hud/heart/hardcore_full");
-	private static final Identifier ICON_HEALTH_FULL_HARDCORE_BLINKING = Identifier.ofVanilla("hud/heart/hardcore_full_blinking");
-	private static final Identifier ICON_HEALTH_HALF_HARDCORE = Identifier.ofVanilla("hud/heart/hardcore_half");
-	private static final Identifier ICON_HEALTH_HALF_HARDCORE_BLINKING = Identifier.ofVanilla("hud/heart/hardcore_half_blinking");
-	private static final Identifier ICON_HEALTH_FULL_POISONED_HARDCORE = Identifier.ofVanilla("hud/heart/poisoned_hardcore_full");
-	private static final Identifier ICON_HEALTH_FULL_POISONED_HARDCORE_BLINKING = Identifier.ofVanilla("hud/heart/poisoned_hardcore_full_blinking");
-	private static final Identifier ICON_HEALTH_HALF_POISONED_HARDCORE = Identifier.ofVanilla("hud/heart/poisoned_hardcore_half");
-	private static final Identifier ICON_HEALTH_HALF_POISONED_HARDCORE_BLINKING = Identifier.ofVanilla("hud/heart/poisoned_hardcore_half_blinking");
-	private static final Identifier ICON_HEALTH_FULL_WITHERED_HARDCORE = Identifier.ofVanilla("hud/heart/withered_hardcore_full");
-	private static final Identifier ICON_HEALTH_FULL_WITHERED_HARDCORE_BLINKING = Identifier.ofVanilla("hud/heart/withered_hardcore_full_blinking");
-	private static final Identifier ICON_HEALTH_HALF_WITHERED_HARDCORE = Identifier.ofVanilla("hud/heart/withered_hardcore_half");
-	private static final Identifier ICON_HEALTH_HALF_WITHERED_HARDCORE_BLINKING = Identifier.ofVanilla("hud/heart/withered_hardcore_half_blinking");
-	private static final Identifier ICON_HEALTH_FULL_FROZEN_HARDCORE = Identifier.ofVanilla("hud/heart/frozen_hardcore_full");
-	private static final Identifier ICON_HEALTH_FULL_FROZEN_HARDCORE_BLINKING = Identifier.ofVanilla("hud/heart/frozen_hardcore_full_blinking");
-	private static final Identifier ICON_HEALTH_HALF_FROZEN_HARDCORE = Identifier.ofVanilla("hud/heart/frozen_hardcore_half");
-	private static final Identifier ICON_HEALTH_HALF_FROZEN_HARDCORE_BLINKING = Identifier.ofVanilla("hud/heart/frozen_hardcore_half_blinking");
+	private static final Identifier ICON_HEALTH_CONTAINER = Identifier.withDefaultNamespace("hud/heart/container");
+	private static final Identifier ICON_HEALTH_CONTAINER_BLINKING = Identifier.withDefaultNamespace("hud/heart/container_blinking");
+	private static final Identifier ICON_HEALTH_CONTAINER_HARDCORE = Identifier.withDefaultNamespace("hud/heart/container_hardcore");
+	private static final Identifier ICON_HEALTH_CONTAINER_HARDCORE_BLINKING = Identifier.withDefaultNamespace("hud/heart/container_hardcore_blinking");
+	private static final Identifier ICON_HEALTH_FULL = Identifier.withDefaultNamespace("hud/heart/full");
+	private static final Identifier ICON_HEALTH_FULL_BLINKING = Identifier.withDefaultNamespace("hud/heart/full_blinking");
+	private static final Identifier ICON_HEALTH_HALF = Identifier.withDefaultNamespace("hud/heart/half");
+	private static final Identifier ICON_HEALTH_HALF_BLINKING = Identifier.withDefaultNamespace("hud/heart/half_blinking");
+	private static final Identifier ICON_HEALTH_FULL_POISONED = Identifier.withDefaultNamespace("hud/heart/poisoned_full");
+	private static final Identifier ICON_HEALTH_FULL_POISONED_BLINKING = Identifier.withDefaultNamespace("hud/heart/poisoned_full_blinking");
+	private static final Identifier ICON_HEALTH_HALF_POISONED = Identifier.withDefaultNamespace("hud/heart/poisoned_half");
+	private static final Identifier ICON_HEALTH_HALF_POISONED_BLINKING = Identifier.withDefaultNamespace("hud/heart/poisoned_half_blinking");
+	private static final Identifier ICON_HEALTH_FULL_WITHERED = Identifier.withDefaultNamespace("hud/heart/withered_full");
+	private static final Identifier ICON_HEALTH_FULL_WITHERED_BLINKING = Identifier.withDefaultNamespace("hud/heart/withered_full_blinking");
+	private static final Identifier ICON_HEALTH_HALF_WITHERED = Identifier.withDefaultNamespace("hud/heart/withered_half");
+	private static final Identifier ICON_HEALTH_HALF_WITHERED_BLINKING = Identifier.withDefaultNamespace("hud/heart/withered_half_blinking");
+	private static final Identifier ICON_HEALTH_FULL_FROZEN = Identifier.withDefaultNamespace("hud/heart/frozen_full");
+	private static final Identifier ICON_HEALTH_FULL_FROZEN_BLINKING = Identifier.withDefaultNamespace("hud/heart/frozen_full_blinking");
+	private static final Identifier ICON_HEALTH_HALF_FROZEN = Identifier.withDefaultNamespace("hud/heart/frozen_half");
+	private static final Identifier ICON_HEALTH_HALF_FROZEN_BLINKING = Identifier.withDefaultNamespace("hud/heart/frozen_half_blinking");
+	private static final Identifier ICON_HEALTH_FULL_HARDCORE = Identifier.withDefaultNamespace("hud/heart/hardcore_full");
+	private static final Identifier ICON_HEALTH_FULL_HARDCORE_BLINKING = Identifier.withDefaultNamespace("hud/heart/hardcore_full_blinking");
+	private static final Identifier ICON_HEALTH_HALF_HARDCORE = Identifier.withDefaultNamespace("hud/heart/hardcore_half");
+	private static final Identifier ICON_HEALTH_HALF_HARDCORE_BLINKING = Identifier.withDefaultNamespace("hud/heart/hardcore_half_blinking");
+	private static final Identifier ICON_HEALTH_FULL_POISONED_HARDCORE = Identifier.withDefaultNamespace("hud/heart/poisoned_hardcore_full");
+	private static final Identifier ICON_HEALTH_FULL_POISONED_HARDCORE_BLINKING = Identifier.withDefaultNamespace("hud/heart/poisoned_hardcore_full_blinking");
+	private static final Identifier ICON_HEALTH_HALF_POISONED_HARDCORE = Identifier.withDefaultNamespace("hud/heart/poisoned_hardcore_half");
+	private static final Identifier ICON_HEALTH_HALF_POISONED_HARDCORE_BLINKING = Identifier.withDefaultNamespace("hud/heart/poisoned_hardcore_half_blinking");
+	private static final Identifier ICON_HEALTH_FULL_WITHERED_HARDCORE = Identifier.withDefaultNamespace("hud/heart/withered_hardcore_full");
+	private static final Identifier ICON_HEALTH_FULL_WITHERED_HARDCORE_BLINKING = Identifier.withDefaultNamespace("hud/heart/withered_hardcore_full_blinking");
+	private static final Identifier ICON_HEALTH_HALF_WITHERED_HARDCORE = Identifier.withDefaultNamespace("hud/heart/withered_hardcore_half");
+	private static final Identifier ICON_HEALTH_HALF_WITHERED_HARDCORE_BLINKING = Identifier.withDefaultNamespace("hud/heart/withered_hardcore_half_blinking");
+	private static final Identifier ICON_HEALTH_FULL_FROZEN_HARDCORE = Identifier.withDefaultNamespace("hud/heart/frozen_hardcore_full");
+	private static final Identifier ICON_HEALTH_FULL_FROZEN_HARDCORE_BLINKING = Identifier.withDefaultNamespace("hud/heart/frozen_hardcore_full_blinking");
+	private static final Identifier ICON_HEALTH_HALF_FROZEN_HARDCORE = Identifier.withDefaultNamespace("hud/heart/frozen_hardcore_half");
+	private static final Identifier ICON_HEALTH_HALF_FROZEN_HARDCORE_BLINKING = Identifier.withDefaultNamespace("hud/heart/frozen_hardcore_half_blinking");
 
 	public static void initializeClientEvents() {
 		HudElementRegistry.attachElementAfter(VanillaHudElements.HEALTH_BAR, HealthRegenerationOverhaul.identifier("health"), ((matrixStack, delta) -> {
-			MinecraftClient minecraftClient = MinecraftClient.getInstance();
-			PlayerEntity playerEntity = minecraftClient.player;
+			Minecraft minecraft = Minecraft.getInstance();
+			LocalPlayer localPlayer = minecraft.player;
 			ClientConfig clientConfig = HealthRegenerationOverhaulClient.CLIENT_CONFIG;
 
-			if (playerEntity != null && !minecraftClient.options.hudHidden && clientConfig.enable_alternative_health_bar) {
-				double health = playerEntity.getHealth();
-				double maxHealth = playerEntity.getMaxHealth();
-				double unreservedHealth = MathHelper.ceil(((HealthRegeneratingEntity) playerEntity).healthregenerationoverhaul$getUnreservedHealth());
+			if (localPlayer != null && !minecraft.options.hideGui && clientConfig.enable_alternative_health_bar) {
+				double health = localPlayer.getHealth();
+				double maxHealth = localPlayer.getMaxHealth();
+				double unreservedHealth = Mth.ceil(((HealthRegeneratingEntity) localPlayer).healthregenerationoverhaul$getUnreservedHealth());
 
-				if (!playerEntity.isCreative() && maxHealth > 0) {
+				if (!localPlayer.isCreative() && maxHealth > 0) {
 
 					MutablePair<Integer, Integer> originPos = ResourceBarAPIClient.getOriginPos(matrixStack, clientConfig.origin);
 
@@ -79,15 +79,15 @@ public class ClientEventsRegistry {
 						Identifier fullId;
 						Identifier halfId;
 
-						boolean blinking = ((DuckInGameHudMixin) minecraftClient.inGameHud).healthregenerationoverhaul$getHeartJumpEndTick() > ((DuckInGameHudMixin) minecraftClient.inGameHud).healthregenerationoverhaul$getTicks() && (((DuckInGameHudMixin) minecraftClient.inGameHud).healthregenerationoverhaul$getHeartJumpEndTick() - ((DuckInGameHudMixin) minecraftClient.inGameHud).healthregenerationoverhaul$getTicks()) / 3L % 2L == 1L;
+						boolean blinking = ((DuckInGameHudMixin) minecraft.gui).healthregenerationoverhaul$getHeartJumpEndTick() > ((DuckInGameHudMixin) minecraft.gui).healthregenerationoverhaul$getTicks() && (((DuckInGameHudMixin) minecraft.gui).healthregenerationoverhaul$getHeartJumpEndTick() - ((DuckInGameHudMixin) minecraft.gui).healthregenerationoverhaul$getTicks()) / 3L % 2L == 1L;
 
-						if (playerEntity.getEntityWorld().getLevelProperties().isHardcore()) {
+						if (localPlayer.level().getLevelData().isHardcore()) {
 							if (blinking) {
 								containerId = ICON_HEALTH_CONTAINER_HARDCORE_BLINKING;
 							} else {
 								containerId = ICON_HEALTH_CONTAINER_HARDCORE;
 							}
-							if (playerEntity.hasStatusEffect(StatusEffects.POISON)) {
+							if (localPlayer.hasEffect(MobEffects.POISON)) {
 								if (blinking) {
 									fullId = ICON_HEALTH_FULL_POISONED_HARDCORE_BLINKING;
 									halfId = ICON_HEALTH_HALF_POISONED_HARDCORE_BLINKING;
@@ -95,7 +95,7 @@ public class ClientEventsRegistry {
 									fullId = ICON_HEALTH_FULL_POISONED_HARDCORE;
 									halfId = ICON_HEALTH_HALF_POISONED_HARDCORE;
 								}
-							} else if (playerEntity.hasStatusEffect(StatusEffects.WITHER)) {
+							} else if (localPlayer.hasEffect(MobEffects.WITHER)) {
 								if (blinking) {
 									fullId = ICON_HEALTH_FULL_WITHERED_HARDCORE_BLINKING;
 									halfId = ICON_HEALTH_HALF_WITHERED_HARDCORE_BLINKING;
@@ -103,7 +103,7 @@ public class ClientEventsRegistry {
 									fullId = ICON_HEALTH_FULL_WITHERED_HARDCORE;
 									halfId = ICON_HEALTH_HALF_WITHERED_HARDCORE;
 								}
-							} else if (playerEntity.isFrozen()) {
+							} else if (localPlayer.isFullyFrozen()) {
 								if (blinking) {
 									fullId = ICON_HEALTH_FULL_FROZEN_HARDCORE_BLINKING;
 									halfId = ICON_HEALTH_HALF_FROZEN_HARDCORE_BLINKING;
@@ -126,7 +126,7 @@ public class ClientEventsRegistry {
 							} else {
 								containerId = ICON_HEALTH_CONTAINER;
 							}
-							if (playerEntity.hasStatusEffect(StatusEffects.POISON)) {
+							if (localPlayer.hasEffect(MobEffects.POISON)) {
 								if (blinking) {
 									fullId = ICON_HEALTH_FULL_POISONED_BLINKING;
 									halfId = ICON_HEALTH_HALF_POISONED_BLINKING;
@@ -134,7 +134,7 @@ public class ClientEventsRegistry {
 									fullId = ICON_HEALTH_FULL_POISONED;
 									halfId = ICON_HEALTH_HALF_POISONED;
 								}
-							} else if (playerEntity.hasStatusEffect(StatusEffects.WITHER)) {
+							} else if (localPlayer.hasEffect(MobEffects.WITHER)) {
 								if (blinking) {
 									fullId = ICON_HEALTH_FULL_WITHERED_BLINKING;
 									halfId = ICON_HEALTH_HALF_WITHERED_BLINKING;
@@ -142,7 +142,7 @@ public class ClientEventsRegistry {
 									fullId = ICON_HEALTH_FULL_WITHERED;
 									halfId = ICON_HEALTH_HALF_WITHERED;
 								}
-							} else if (playerEntity.isFrozen()) {
+							} else if (localPlayer.isFullyFrozen()) {
 								if (blinking) {
 									fullId = ICON_HEALTH_FULL_FROZEN_BLINKING;
 									halfId = ICON_HEALTH_HALF_FROZEN_BLINKING;
@@ -162,7 +162,7 @@ public class ClientEventsRegistry {
 						}
 
 						ResourceBarAPIClient.drawIconResourceBar(
-								minecraftClient,
+								minecraft,
 								matrixStack,
 								RESOURCE_BAR_IDENTIFIER_STRING,
 								health,
@@ -182,7 +182,7 @@ public class ClientEventsRegistry {
 						);
 					} else if (clientConfig.health_bar_display == ResourceBarAPI.ResourceBarDisplay.SMOOTH && (health < maxHealth || clientConfig.show_full_health_bar)) {
 						ResourceBarAPIClient.drawSmoothResourceBar(
-								minecraftClient,
+								minecraft,
 								matrixStack,
 								RESOURCE_BAR_IDENTIFIER_STRING,
 								new double[]{
@@ -203,18 +203,18 @@ public class ClientEventsRegistry {
 										0
 								},
 								new Identifier[]{
-										Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_background.png"),
-										Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_progress_decrease_animation.png"),
-										Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_progress_increase_animation.png"),
-										Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_progress_increase_value.png"),
-										Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_progress.png"),
-										Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_reserved.png"),
-										Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_overlay.png"),
+										HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_background.png"),
+										HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_progress_decrease_animation.png"),
+										HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_progress_increase_animation.png"),
+										HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_progress_increase_value.png"),
+										HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_progress.png"),
+										HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_reserved.png"),
+										HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_overlay.png"),
 										null
 								},
 								health,
 								maxHealth,
-								MathHelper.ceil(((HealthRegeneratingEntity) playerEntity).healthregenerationoverhaul$getRegeneratedHealth()),
+								Mth.ceil(((HealthRegeneratingEntity) localPlayer).healthregenerationoverhaul$getRegeneratedHealth()),
 								unreservedHealth,
 								originPos.getLeft(),
 								originPos.getRight(),
@@ -258,8 +258,8 @@ public class ClientEventsRegistry {
 					}
 					if (clientConfig.numberSettings.show_number && (health < maxHealth || clientConfig.show_full_health_bar)) {
 						ResourceBarAPIClient.drawResourceNumber(
-								minecraftClient,
-								minecraftClient.textRenderer,
+								minecraft,
+								minecraft.font,
 								matrixStack,
 								RESOURCE_BAR_IDENTIFIER_STRING,
 								health,
@@ -277,7 +277,7 @@ public class ClientEventsRegistry {
 			}
 		}));
 		ConfigApi.event().onUpdateClient((identifier, config) -> {
-			if (identifier.equals(Identifier.of(HealthRegenerationOverhaul.MOD_ID, "client"))) {
+			if (identifier.equals(Identifier.fromNamespaceAndPath(HealthRegenerationOverhaul.MOD_ID, "client"))) {
 				ResourceBarAPIClient.clearCache(
 						RESOURCE_BAR_IDENTIFIER_STRING,
 						new double[]{
@@ -298,13 +298,13 @@ public class ClientEventsRegistry {
 								0
 						},
 						new Identifier[]{
-								Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_background.png"),
-								Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_progress_decrease_animation.png"),
-								Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_progress_increase_animation.png"),
-								Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_progress_increase_value.png"),
-								Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_progress.png"),
-								Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_reserved.png"),
-								Identifier.of("healthregenerationoverhaul", "textures/gui/sprites/hud/horizontal_health_overlay.png"),
+								HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_background.png"),
+								HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_progress_decrease_animation.png"),
+								HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_progress_increase_animation.png"),
+								HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_progress_increase_value.png"),
+								HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_progress.png"),
+								HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_reserved.png"),
+								HealthRegenerationOverhaul.identifier("textures/gui/sprites/hud/horizontal_health_overlay.png"),
 								null
 						}
 				);
