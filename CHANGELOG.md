@@ -7,10 +7,6 @@
 - the custom health icon bar now shows absorption hearts
 - the custom health icon bar now displays reserved health
 
-## Changes
-
-## Fixes
-
 ## Technical
 
 - migrated to Mojang Mappings
