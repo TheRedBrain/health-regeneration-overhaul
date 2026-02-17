@@ -1,6 +1,6 @@
 # Health Regeneration Overhaul
 
-This API changes the way health is regenerated. Instead of depending on the hunger system, three new entity attributes are
+This API changes the way health is regenerated. Instead of depending on the hunger system, entity attributes are
 used.
 
 The vanilla hunger system including exhaustion and saturation is disabled by default.
@@ -24,7 +24,7 @@ When health is reduced, regeneration is stopped for **_health_regeneration_delay
 
 ## Customization
 
-When the vanilla game rule "naturalRegeneration" is true, players have 1 additional health regeneration.
+When the vanilla game rule "natural_health_regeneration" is true, players have 1 additional health regeneration.
 
 In the client config an alternative health bar can be enabled and customized.
 
