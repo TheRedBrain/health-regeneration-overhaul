@@ -67,6 +67,10 @@ public class ClientEventsRegistry {
 	private static final Identifier ICON_HEALTH_HALF_FROZEN_HARDCORE = Identifier.withDefaultNamespace("hud/heart/frozen_hardcore_half");
 	private static final Identifier ICON_HEALTH_HALF_FROZEN_HARDCORE_BLINKING = Identifier.withDefaultNamespace("hud/heart/frozen_hardcore_half_blinking");
 
+	private static final Identifier ICON_HEALTH_CONTAINER_RESERVED = HealthRegenerationOverhaul.identifier("hud/icon_health_container_reserved");
+	private static final Identifier ICON_HEALTH_FULL_RESERVED = HealthRegenerationOverhaul.identifier("hud/icon_health_full_reserved");
+	private static final Identifier ICON_HEALTH_HALF_RESERVED = HealthRegenerationOverhaul.identifier("hud/icon_health_half_reserved");
+
 	public static void initializeClientEvents() {
 		HudElementRegistry.attachElementAfter(VanillaHudElements.HEALTH_BAR, HealthRegenerationOverhaul.identifier("health"), ((guiGraphics, delta) -> {
 			Minecraft minecraft = Minecraft.getInstance();
@@ -189,6 +193,14 @@ public class ClientEventsRegistry {
 								regularContainerId,
 								regularFullId,
 								regularHalfId,
+								ResourceBarAPI.ContinuationType.NEW_ICON
+						));
+						list.add(new ResourceBarAPI.ResourceBarIconType(
+								maxHealth - unreservedHealth,
+								maxHealth - unreservedHealth,
+								ICON_HEALTH_CONTAINER_RESERVED,
+								ICON_HEALTH_FULL_RESERVED,
+								ICON_HEALTH_HALF_RESERVED,
 								ResourceBarAPI.ContinuationType.NEW_ICON
 						));
 						list.add(new ResourceBarAPI.ResourceBarIconType(
