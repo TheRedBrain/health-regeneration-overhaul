@@ -1,81 +1,103 @@
 {
-	"attribute.name.generic.health_regeneration": "Health Regen",
-	"attribute.name.generic.health_tick_threshold": "Health Tick Threshold",
-	"attribute.name.generic.health_regeneration_delay_threshold": "Health Regeneration Delay Threshold",
+	"attribute.name.health_regeneration": "Health Regen",
+	"attribute.name.health_tick_threshold": "Health Tick Threshold",
+	"attribute.name.health_regeneration_delay_threshold": "Health Regeneration Delay Threshold",
+	"attribute.name.reserved_health": "Reserved Health",
 
-	"text.autoconfig.healthregenerationoverhaul.title": "Health Regeneration Overhaul",
-	
-	"text.autoconfig.healthregenerationoverhaul.option.client.enable_alternative_health_bar.@PrefixText": "Replaces the vanilla health bar with a simpler and more scalable bar. All other options in this config only affect the new health bar.",
-	"text.autoconfig.healthregenerationoverhaul.option.client.enable_alternative_health_bar": "Enable the alternative health bar",
-	"text.autoconfig.healthregenerationoverhaul.option.client.show_full_health_bar": "Shows the health bar even if it's full",
+	"healthregenerationoverhaul.client": "Client Side Settings",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.offset_x": "X offset from origin",
-	"text.autoconfig.healthregenerationoverhaul.option.client.offset_y": "Y offset from origin",
-	"text.autoconfig.healthregenerationoverhaul.option.client.fill_direction": "Fill direction",
-	"text.autoconfig.healthregenerationoverhaul.option.client.origin": "Origin",
+	"healthregenerationoverhaul.client.enable_alternative_health_bar": "Enable the alternative health bar",
+	"healthregenerationoverhaul.client.enable_alternative_health_bar.desc": "Replaces the vanilla health bar with a more customizable bar. All other options in this config only affect the new health bar.",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.background_middle_segment_amount.@PrefixText": "\nBackground Texture",
-	"text.autoconfig.healthregenerationoverhaul.option.client.background_middle_segment_amount": "Middle segment amount",
+	"healthregenerationoverhaul.client.health_bar_display": "Health Bar Display",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_background_left_end_width.@PrefixText": "\nHorizontal texture\nThe texture width should be the sum of the 3 following values",
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_background_left_end_width": "Left end width",
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_background_middle_segment_width": "Middle segment width",
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_background_right_end_width": "Right end width",
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_background_height": "Height",
+	"healthregenerationoverhaul.client.show_full_health_bar": "Show full bar",
+	"healthregenerationoverhaul.client.show_full_health_bar.desc": "Shows the health bar even if it's full",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_background_width.@PrefixText": "\nVertical texture",
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_background_width": "Width",
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_background_top_end_height.@PrefixText": "\nThe texture height should be the sum of the 3 following values",
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_background_top_end_height": "Top end height",
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_background_middle_segment_height": "Middle segment height",
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_background_bottom_end_height": "Bottom end height",
+	"healthregenerationoverhaul.client.origin": "Origin",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.progress_offset_x.@PrefixText": "\nProgress Texture",
-	"text.autoconfig.healthregenerationoverhaul.option.client.progress_offset_x": "X offset from background",
-	"text.autoconfig.healthregenerationoverhaul.option.client.progress_offset_y": "Y offset from background",
-	"text.autoconfig.healthregenerationoverhaul.option.client.progress_middle_segment_amount": "Middle segment amount",
+	"healthregenerationoverhaul.client.fill_direction": "Fill direction",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_progress_left_end_width.@PrefixText": "\nHorizontal texture\nThe texture width should be the sum of the 3 following values",
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_progress_left_end_width": "Left end width",
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_progress_middle_segment_width": "Middle segment width",
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_progress_right_end_width": "Right end width",
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_progress_height": "Height",
+	"healthregenerationoverhaul.client.iconBarSettings": "Icon Bar Settings",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_progress_width.@PrefixText": "\nVertical texture",
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_progress_width": "Width",
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_progress_top_end_height.@PrefixText": "\nThe texture height should be the sum of the 3 following values",
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_progress_top_end_height": "Top end height",
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_progress_middle_segment_height": "Middle segment height",
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_progress_bottom_end_height": "Bottom end height",
+	"healthregenerationoverhaul.client.iconBarSettings.offset_x": "X Offset from Origin",
+	"healthregenerationoverhaul.client.iconBarSettings.offset_y": "Y Offset from Origin",
+	"healthregenerationoverhaul.client.iconBarSettings.max_icon_amount_per_bar": "Max Icon Amount Per Bar",
+	"healthregenerationoverhaul.client.iconBarSettings.reverse_stack_direction": "Reverse Stack Direction",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.show_current_value_overlay.@PrefixText": "\nCurrent value overlay",
-	"text.autoconfig.healthregenerationoverhaul.option.client.show_current_value_overlay": "Show overlay",
+	"healthregenerationoverhaul.client.smoothBarSettings": "Smooth Bar Settings",
+	"healthregenerationoverhaul.client.smoothBarSettings.positionSettings": "Position Settings",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.overlay_offset_x": "X offset from progress",
-	"text.autoconfig.healthregenerationoverhaul.option.client.overlay_offset_y": "Y offset from progress",
+	"healthregenerationoverhaul.client.smoothBarSettings.positionSettings.offsets_x": "X Offset from Origin",
+	"healthregenerationoverhaul.client.smoothBarSettings.positionSettings.offsets_x.desc": "Only the highest reached threshold is used.",
+	"healthregenerationoverhaul.client.smoothBarSettings.positionSettings.offsets_y": "Y Offset from Origin",
+	"healthregenerationoverhaul.client.smoothBarSettings.positionSettings.offsets_y.desc": "Only the highest reached threshold is used.",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_overlay_width.@PrefixText": "\nHorizontal Overlay Texture",
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_overlay_width": "Width",
-	"text.autoconfig.healthregenerationoverhaul.option.client.horizontal_overlay_height": "Height",
+	"healthregenerationoverhaul.client.smoothBarSettings.textureSettings.backgroundTextureSettings": "Background Settings",
+	"healthregenerationoverhaul.client.smoothBarSettings.textureSettings.progressTextureSettings": "Progress Settings",
+	"healthregenerationoverhaul.client.smoothBarSettings.textureSettings.reservedTextureSettings": "Reserved Settings",
+	"healthregenerationoverhaul.client.smoothBarSettings.textureSettings.overlayTextureSettings": "Overlay Settings",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_overlay_width.@PrefixText": "\nVertical Overlay Texture",
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_overlay_width": "Width",
-	"text.autoconfig.healthregenerationoverhaul.option.client.vertical_overlay_height": "Height",
+	"healthregenerationoverhaul.client.smoothBarSettings.textureSettings.progressTextureSettings.progress_decrease_animation_texture_ids": "Progress Decrease Animation Texture Ids",
+	"healthregenerationoverhaul.client.smoothBarSettings.textureSettings.progressTextureSettings.progress_increase_animation_texture_ids": "Progress Increase Animation Texture Ids",
+	"healthregenerationoverhaul.client.smoothBarSettings.textureSettings.progressTextureSettings.progress_increase_value_texture_ids": "Progress Increase Value Texture Ids",
+	"healthregenerationoverhaul.client.smoothBarSettings.textureSettings.progressTextureSettings.progress_texture_ids": "Progress Texture Ids",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.enable_smooth_animation.@PrefixText": "\nAnimation",
-	"text.autoconfig.healthregenerationoverhaul.option.client.enable_smooth_animation": "Enable smooth animation",
-	"text.autoconfig.healthregenerationoverhaul.option.client.animation_interval": "Animation interval",
+	"healthregenerationoverhaul.client.texture_layer.offset_x": "X offset from background",
+	"healthregenerationoverhaul.client.texture_layer.offset_y": "Y offset from background",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.max_value_change_is_animated": "Animate changes to the max value",
+	"healthregenerationoverhaul.client.texture_layer.texture_heights": "Texture Heights",
+	"healthregenerationoverhaul.client.texture_layer.texture_heights.desc": "Only the highest reached threshold is used.",
+	"healthregenerationoverhaul.client.texture_layer.texture_widths": "Texture Widths",
+	"healthregenerationoverhaul.client.texture_layer.texture_widths.desc": "Only the highest reached threshold is used.",
+	"healthregenerationoverhaul.client.texture_layer.texture_ids": "Texture Identifiers",
+	"healthregenerationoverhaul.client.texture_layer.texture_ids.desc": "Only the highest reached threshold is used.",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.show_number.@PrefixText": "\nNumber",
-	"text.autoconfig.healthregenerationoverhaul.option.client.show_number": "Show number",
+	"healthregenerationoverhaul.client.show_current_value_overlay": "Show overlay",
+	"healthregenerationoverhaul.client.show_current_value_overlay.desc": "Indicates the current value",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.show_max_value.@PrefixText": "Show the max value in addition to the current value",
-	"text.autoconfig.healthregenerationoverhaul.option.client.show_max_value": "Show maximum value",
+	"healthregenerationoverhaul.client.smoothBarSettings.textureSettings.overlayTextureSettings.offset_x": "X offset from progress",
+	"healthregenerationoverhaul.client.smoothBarSettings.textureSettings.overlayTextureSettings.offset_y": "Y offset from progress",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.number_offset_x": "X offset from origin",
-	"text.autoconfig.healthregenerationoverhaul.option.client.number_offset_y": "Y offset from origin",
+	"healthregenerationoverhaul.client.smoothBarSettings.show_icon": "Show icon",
+	"healthregenerationoverhaul.client.smoothBarSettings.show_icon.desc": "An additional HUD element",
 
-	"text.autoconfig.healthregenerationoverhaul.option.client.number_color": "Number color"
+	"healthregenerationoverhaul.client.smoothBarSettings.iconTextureSettings": "Icon Settings",
+
+	"healthregenerationoverhaul.client.smoothBarSettings.iconTextureSettings.offset_x": "X offset from origin",
+	"healthregenerationoverhaul.client.smoothBarSettings.iconTextureSettings.offset_y": "Y offset from origin",
+
+	"healthregenerationoverhaul.client.smoothBarSettings.enable_smooth_animation": "Enable smooth animation",
+
+	"healthregenerationoverhaul.client.smoothBarSettings.animationSettings": "Animation Settings",
+
+	"healthregenerationoverhaul.client.smoothBarSettings.animationSettings.animation_interval": "Animation interval",
+	"healthregenerationoverhaul.client.smoothBarSettings.animationSettings.max_value_change_is_animated": "Animate max value changes",
+
+	"healthregenerationoverhaul.client.show_number": "Show number",
+	"healthregenerationoverhaul.client.show_number.desc": "Shows the current health amount as a number",
+
+	"healthregenerationoverhaul.client.numberSettings": "Number Settings",
+
+	"healthregenerationoverhaul.client.numberSettings.show_max_value.desc": "Additionally shows the maximum value. When health is reserved, it shows the unreserved maximum and the real maximum (in brackets).",
+	"healthregenerationoverhaul.client.numberSettings.show_max_value": "Show maximum value",
+
+	"healthregenerationoverhaul.client.numberSettings.offset_x": "X offset from origin",
+	"healthregenerationoverhaul.client.numberSettings.offset_y": "Y offset from origin",
+
+	"healthregenerationoverhaul.client.numberSettings.color": "Number color",
+
+
+	"healthregenerationoverhaul.server": "Server Side Settings",
+
+	"healthregenerationoverhaul.server.disable_vanilla_food_system": "Disable Vanilla Food System",
+
+	"healthregenerationoverhaul.server.natural_player_attribute_values": "Natural Player Attribute Values",
+
+	"healthregenerationoverhaul.server.natural_player_attribute_values.natural_health_regeneration": "Health Regeneration",
+	"healthregenerationoverhaul.server.natural_player_attribute_values.natural_max_health": "Maximum Health",
+	"healthregenerationoverhaul.server.natural_player_attribute_values.natural_health_regeneration_delay_threshold": "Health Regeneration Delay Threshold",
+	"healthregenerationoverhaul.server.natural_player_attribute_values.natural_depleted_health_regeneration_delay_threshold": "Depleted Health Regeneration Delay Threshold",
+	"healthregenerationoverhaul.server.natural_player_attribute_values.natural_health_tick_threshold": "Health Tick Threshold",
+	"healthregenerationoverhaul.server.natural_player_attribute_values.natural_reserved_health": "Reserved Health"
 }

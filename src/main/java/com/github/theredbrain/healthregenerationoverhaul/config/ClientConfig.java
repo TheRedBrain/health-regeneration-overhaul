@@ -192,7 +192,6 @@ public class ClientConfig extends Config {
 	public static class NumberSettings extends ConfigSection {
 		public boolean show_number = false;
 		public boolean show_max_value = false;
-		public boolean show_when_health_full = true;
 		public int offset_x = 0;
 		public int offset_y = -40;
 		public ValidatedColor color = new ValidatedColor(150, 150, 150);
