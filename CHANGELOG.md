@@ -1,8 +1,6 @@
 # 4.0.0
 
-## TODO
-
-- status effects
+- updated to 26.1.x
 
 # 3.1.0
 
