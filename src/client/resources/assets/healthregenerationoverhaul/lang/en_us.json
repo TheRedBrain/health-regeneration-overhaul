@@ -96,6 +96,7 @@
 
 	"healthregenerationoverhaul.server.natural_player_attribute_values.natural_health_regeneration": "Health Regeneration",
 	"healthregenerationoverhaul.server.natural_player_attribute_values.natural_max_health": "Maximum Health",
+	"healthregenerationoverhaul.server.natural_player_attribute_values.natural_max_health.desc": "Players have a default max health of 1.",
 	"healthregenerationoverhaul.server.natural_player_attribute_values.natural_health_regeneration_delay_threshold": "Health Regeneration Delay Threshold",
 	"healthregenerationoverhaul.server.natural_player_attribute_values.natural_depleted_health_regeneration_delay_threshold": "Depleted Health Regeneration Delay Threshold",
 	"healthregenerationoverhaul.server.natural_player_attribute_values.natural_health_tick_threshold": "Health Tick Threshold",
