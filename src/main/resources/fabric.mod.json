@@ -3,7 +3,7 @@
 	"id": "healthregenerationoverhaul",
 	"version": "${version}",
 	"name": "Health Regeneration Overhaul",
-	"description": "This API changes how health regeneration works and can disable the food system.",
+	"description": "This API changes health regeneration to be attribute-driven and (optionally) disables the hunger/saturation system.",
 	"authors": [
 		"TheRedBrain"
 	],
