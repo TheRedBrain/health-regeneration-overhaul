@@ -24,7 +24,7 @@ public abstract class ServerPlayerEntityMixin extends Player implements HealthRe
 	}
 
 	@Inject(method = "initInventoryMenu", at = @At("TAIL"))
-	public void healthregenerationoverhaul$onSpawn(CallbackInfo ci) {
+	public void healthregenerationoverhaul$initInventoryMenu(CallbackInfo ci) {
 		this.healthregenerationoverhaul$setApplyOldHealth(false);
 		if (this.getStats().getValue(Stats.CUSTOM.get(Stats.LEAVE_GAME)) <= 0) {
 			this.healthregenerationoverhaul$setApplyMaxHealth(true);

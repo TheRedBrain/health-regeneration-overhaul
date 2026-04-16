@@ -4,7 +4,7 @@ import com.github.theredbrain.healthregenerationoverhaul.HealthRegenerationOverh
 import com.github.theredbrain.healthregenerationoverhaul.HealthRegenerationOverhaulClient;
 import com.github.theredbrain.healthregenerationoverhaul.config.ClientConfig;
 import com.github.theredbrain.healthregenerationoverhaul.entity.HealthRegeneratingEntity;
-import com.github.theredbrain.healthregenerationoverhaul.gui.hud.DuckInGameHudMixin;
+import com.github.theredbrain.healthregenerationoverhaul.gui.hud.DuckGuiMixin;
 import com.github.theredbrain.resourcebarapi.ResourceBarAPI;
 import com.github.theredbrain.resourcebarapi.ResourceBarAPIClient;
 import me.fzzyhmstrs.fzzy_config.api.ConfigApi;
@@ -96,7 +96,7 @@ public class ClientEventsRegistry {
 						Identifier absorbingFullId;
 						Identifier absorbingHalfId;
 
-						boolean blinking = ((DuckInGameHudMixin) minecraft.gui).healthregenerationoverhaul$getHeartJumpEndTick() > ((DuckInGameHudMixin) minecraft.gui).healthregenerationoverhaul$getTicks() && (((DuckInGameHudMixin) minecraft.gui).healthregenerationoverhaul$getHeartJumpEndTick() - ((DuckInGameHudMixin) minecraft.gui).healthregenerationoverhaul$getTicks()) / 3L % 2L == 1L;
+						boolean blinking = ((DuckGuiMixin) minecraft.gui).healthregenerationoverhaul$getHeartJumpEndTick() > ((DuckGuiMixin) minecraft.gui).healthregenerationoverhaul$getTicks() && (((DuckGuiMixin) minecraft.gui).healthregenerationoverhaul$getHeartJumpEndTick() - ((DuckGuiMixin) minecraft.gui).healthregenerationoverhaul$getTicks()) / 3L % 2L == 1L;
 
 						if (localPlayer.level().getLevelData().isHardcore()) {
 							if (blinking) {

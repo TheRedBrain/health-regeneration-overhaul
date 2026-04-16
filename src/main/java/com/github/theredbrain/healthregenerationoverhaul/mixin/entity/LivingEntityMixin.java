@@ -65,7 +65,7 @@ public abstract class LivingEntityMixin extends Entity implements HealthRegenera
 	}
 
 	@Inject(method = "readAdditionalSaveData", at = @At("HEAD"))
-	public void healthregenerationoverhaul$readCustomData_head(ValueInput view, CallbackInfo ci) {
+	public void healthregenerationoverhaul$readAdditionalSaveData_head(ValueInput view, CallbackInfo ci) {
 		float health;
 		if (view.contains("Health")) {
 			health = view.getFloatOr("Health", this.getMaxHealth());
@@ -85,7 +85,7 @@ public abstract class LivingEntityMixin extends Entity implements HealthRegenera
 	}
 
 	@Inject(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setHealth(F)V", shift = At.Shift.AFTER))
-	protected void healthregenerationoverhaul$applyDamage(ServerLevel world, DamageSource source, float amount, CallbackInfo ci) {
+	protected void healthregenerationoverhaul$actuallyHurt(ServerLevel world, DamageSource source, float amount, CallbackInfo ci) {
 		this.healthregenerationoverhaul$resetTickCounters();
 	}
 

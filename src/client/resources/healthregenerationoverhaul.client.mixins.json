@@ -1,9 +1,9 @@
 {
 	"required": true,
 	"package": "com.github.theredbrain.healthregenerationoverhaul.mixin.client",
-	"compatibilityLevel": "JAVA_21",
+	"compatibilityLevel": "JAVA_25",
 	"client": [
-		"gui.hud.InGameHudMixin"
+		"gui.GuiMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

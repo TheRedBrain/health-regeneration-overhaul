@@ -30,7 +30,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements HealthRe
 	}
 
 	@Inject(method = "createAttributes", at = @At("RETURN"))
-	private static void healthregenerationoverhaul$createPlayerAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
+	private static void healthregenerationoverhaul$createAttributes(CallbackInfoReturnable<AttributeSupplier.Builder> cir) {
 		cir.getReturnValue()
 				.add(Attributes.MAX_HEALTH, 1.0)
 				.add(HealthRegenerationOverhaul.HEALTH_TICK_THRESHOLD, 0.0)
@@ -39,7 +39,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements HealthRe
 	}
 
 	@Inject(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setHealth(F)V", shift = At.Shift.AFTER))
-	protected void healthregenerationoverhaul$applyDamage(ServerLevel world, DamageSource source, float amount, CallbackInfo ci) {
+	protected void healthregenerationoverhaul$actuallyHurt(ServerLevel world, DamageSource source, float amount, CallbackInfo ci) {
 		this.healthregenerationoverhaul$resetTickCounters();
 	}
 
